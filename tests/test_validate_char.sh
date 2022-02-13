@@ -1,4 +1,3 @@
-source library.sh
 
 function char_is_present () {
     local test_word="world"

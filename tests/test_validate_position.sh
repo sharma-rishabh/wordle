@@ -1,4 +1,3 @@
-source library.sh
 
 
 function correct_position () {

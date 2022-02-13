@@ -1,4 +1,3 @@
-source library.sh
 
 function correct_word () {
     local test_word=world

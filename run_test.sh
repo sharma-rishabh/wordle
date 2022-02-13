@@ -12,10 +12,11 @@ NUM_OF_TEST=0
 FAILING_TESTS=()
 IFS=$'\n'
 
+source lib/library.sh
 
-source test_validate_word.sh
-source test_validate_char.sh
-source test_validate_position.sh
+source tests/test_validate_word.sh
+source tests/test_validate_char.sh
+source tests/test_validate_position.sh
 
 
 function verify_expectation() {
