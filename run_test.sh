@@ -17,6 +17,7 @@ source lib/library.sh
 source tests/test_validate_word.sh
 source tests/test_validate_char.sh
 source tests/test_validate_position.sh
+source tests/test_set_char_values.sh
 
 
 function verify_expectation() {
@@ -46,6 +47,8 @@ function all_test_cases() {
     validate_char_test_cases
 	echo -e "\n\n  ${NORMAL}validate_position"
     validate_position_test_cases
+	echo -e "\n\n  ${NORMAL}set_char_values"
+    set_char_values_test_cases
 }
 
 
