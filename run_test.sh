@@ -14,6 +14,7 @@ IFS=$'\n'
 
 
 source test_validate_word.sh
+source test_validate_char.sh
 
 
 function verify_expectation() {
@@ -39,6 +40,8 @@ function verify_expectation() {
 function all_test_cases() {
 	echo -e "\n\n  ${NORMAL}validate_word"
 	validate_word_test_cases
+	echo -e "\n\n  ${NORMAL}validate_char"
+    validate_char_test_cases
 }
 
 

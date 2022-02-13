@@ -1,4 +1,4 @@
-source validate_word.sh
+source library.sh
 
 function correct_word () {
     local test_word=world
