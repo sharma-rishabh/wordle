@@ -29,3 +29,17 @@ function validate_char () {
     done
     echo $char_found
 }
+
+function validate_position () {
+    local word=$1
+    local char=$2
+    local position=$3
+    local return_status=1
+
+    if [[ ${word:$position:1} == $char ]]
+    then 
+        return_status=0
+    fi
+
+    echo $return_status
+}
