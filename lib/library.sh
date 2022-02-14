@@ -120,3 +120,74 @@ function get_conclusion () {
     return 0
 }
 
+function play_wordle () {
+    local orignal_word=$1
+    local dictionary="$2"
+
+    local guessed_word
+    local is_guess_correct
+    local prepared_output
+
+    local chances=${#orignal_word}
+
+    while [[ ${chances} -gt 0 ]]
+    do
+        echo -e "\nYou have ${chances} chances left.\n"
+
+        read guessed_word
+        
+        local is_word_valid=$( validate_word $guessed_word "$dictionary" )
+        if [[ $is_word_valid == 1 ]]
+        then
+            echo "${guessed_word} is not a five letter word."
+            continue
+        fi
+        
+        local guess_analysis=$( set_char_values $orignal_word $guessed_word )
+        prepared_output=$( get_conclusion $guessed_word $guess_analysis )
+        is_guess_correct=$?
+        
+        echo -e "$prepared_output${NORMAL}"
+        
+        if [[ $is_guess_correct == 1 ]]
+        then
+            return 0
+        fi
+        chances=$(( $chances - 1 ))
+    done
+    return 1
+}
+
+
+function get_random_word () {
+    local dictionary="$1"
+
+    local total_words=$( grep -c '.*' <<< "${dictionary}" )
+    local random_number=$( jot -r 1 1 ${total_words} )
+
+    local random_word=$( head -n $random_number <<< "${dictionary}" | tail -n1 )
+    echo "$random_word"
+}
+
+
+
+function main () {
+    local dictionary=$( cat $1 )
+
+    local orignal_word=$( get_random_word "${dictionary}")
+
+    echo "Welcome to wordle start guessing five letter words."
+
+    local result="Sorry!! You're out of luck today. Word is : ${orignal_word}"
+
+    play_wordle "${orignal_word}" "${dictionary}"
+    chances_exhausted=$?
+
+    if [[ $chances_exhausted == 0 ]]
+    then
+        result="Congratulations!! Your guess is correct."
+    fi
+
+    echo -e "\n$result\n"
+
+}
