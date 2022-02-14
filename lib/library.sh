@@ -2,6 +2,10 @@ POSITION_CORRECT=0
 CHARACTER_PRESENT=1
 CHARACTER_ABSENT=2
 
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NORMAL='\033[0m'
+
 
 function validate_word () {
     local word="$1"
@@ -76,3 +80,43 @@ function set_char_values () {
     done
     echo $char_values
 }
+
+
+function get_conclusion () {
+    local guessed_word=$1
+    local assigned_values=$2
+
+    local concluded_word
+
+    local word_length=$(( ${#guessed_word} - 1 ))
+
+    for index in `seq 0 1 ${word_length}`
+    do
+        local char=${guessed_word:$index:1}
+        local value=${assigned_values:$index:1}
+
+        if [[ ${value} == $POSITION_CORRECT ]]
+        then
+            concluded_word+="${GREEN}${char}"
+            continue
+        fi
+        
+        if [[ ${value} == ${CHARACTER_PRESENT} ]]
+        then
+            concluded_word+="${YELLOW}${char}"
+            continue
+        fi
+        
+        concluded_word+="${NORMAL}${char}"
+    done
+
+    echo "$concluded_word"
+    
+    if [[ $assigned_values == "00000" ]]
+    then
+        return 1
+    fi
+
+    return 0
+}
+
